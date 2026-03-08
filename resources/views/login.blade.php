@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('hideNavbar')
+@endsection
+
 @section('content')
 <div class="login-page d-flex align-items-center justify-content-center">
     <div class="login-wrapper text-center">

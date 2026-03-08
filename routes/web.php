@@ -16,10 +16,7 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 Route::get('/community-events/add', [CommunityEventController::class, 'create'])->middleware('auth');
 Route::post('/community-events', [CommunityEventController::class, 'store'])->middleware('auth');
