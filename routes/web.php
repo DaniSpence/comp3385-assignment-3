@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommunityEventController;
 
 Route::get('/login', [AuthController::class, 'create'])->name('login');
 Route::post('/login', [AuthController::class, 'store']);
@@ -19,3 +20,6 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
+
+Route::get('/community-events/add', [CommunityEventController::class, 'create'])->middleware('auth');
+Route::post('/community-events', [CommunityEventController::class, 'store'])->middleware('auth');
