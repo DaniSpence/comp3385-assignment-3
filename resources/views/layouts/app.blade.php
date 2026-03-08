@@ -75,7 +75,20 @@
         .card-soft {
             border: 1px solid #d9e7e2;
             border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .logout-btn {
+            border: 1px solid #d9e7e2;
+            background: #fff;
+            color: #4b5563;
+            border-radius: 10px;
+            padding: 4px 10px;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #f3f4f6;
         }
     </style>
 </head>
@@ -89,29 +102,46 @@
                     <span class="navbar-brand-text">Events Board</span>
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="mainNav">
                     <ul class="navbar-nav ms-3 me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill {{ request()->is('dashboard') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
-                                Events
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill {{ request()->is('community-events/add') ? 'active' : '' }}" href="{{ url('/community-events/add') }}">
-                                Create Event
-                            </a>
-                        </li>
+                        @auth
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill {{ request()->is('dashboard') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
+                                    Events
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill {{ request()->is('community-events/add') ? 'active' : '' }}" href="{{ url('/community-events/add') }}">
+                                    Create Event
+                                </a>
+                            </li>
+                        @endauth
                     </ul>
 
                     <div class="d-flex align-items-center gap-3">
-                        <span class="rounded-circle d-inline-flex align-items-center justify-content-center"
-                              style="width:32px;height:32px;background:#dff3ee;color:#4b5563;font-size:12px;font-weight:700;">
-                            {{ strtoupper(substr(auth()->user()->name ?? 'JD', 0, 2)) }}
-                        </span>
+                        @auth
+                            <span class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                                  style="width:32px;height:32px;background:#dff3ee;color:#4b5563;font-size:12px;font-weight:700;">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                            </span>
+
+                            <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                                @csrf
+                                <button type="submit" class="logout-btn" title="Logout">
+                                    ⎋
+                                </button>
+                            </form>
+                        @endauth
+
+                        @guest
+                            <a href="{{ route('login') }}" class="btn btn-sm btn-outline-primary">
+                                Login
+                            </a>
+                        @endguest
                     </div>
                 </div>
             </div>
@@ -119,6 +149,12 @@
     @endunless
 
     <div class="page-shell page-content">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @yield('content')
     </div>
 

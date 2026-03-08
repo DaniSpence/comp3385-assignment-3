@@ -20,3 +20,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 
 Route::get('/community-events/add', [CommunityEventController::class, 'create'])->middleware('auth');
 Route::post('/community-events', [CommunityEventController::class, 'store'])->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

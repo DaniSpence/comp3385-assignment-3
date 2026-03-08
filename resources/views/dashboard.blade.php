@@ -13,12 +13,6 @@
     </a>
 </div>
 
-@if(session('success'))
-    <div class="alert alert-success card-soft">
-        {{ session('success') }}
-    </div>
-@endif
-
 @if($events->count())
     <div class="row g-4">
         @foreach($events as $event)
